@@ -215,6 +215,7 @@ func (api *API) PublishTDS(siteId string, tdsMetadata Datasource, fullTds string
 func (api *API) publishDatasource(siteId string, tdsMetadata Datasource, datasource string, datasourceType string, overwrite bool) (retval *Datasource, err error) {
 	url := fmt.Sprintf("%s/api/%s/sites/%s/datasources?datasourceType=%s&overwrite=%v", api.Server, api.Version, siteId, datasourceType, overwrite)
 	//payload := fmt.Sprintf("--%s\r\n", api.Boundary)
+	payload := fmt.Sprintf("--%s\r\n", "")
 	payload += "Content-Disposition: name=\"request_payload\"\r\n"
 	payload += "Content-Type: text/xml\r\n"
 	payload += "\r\n"
