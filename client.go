@@ -81,6 +81,7 @@ func (api *API) ServerInfo() (ServerInfo, error) {
 	headers := make(map[string]string)
 	retval := ServerInfoResponse{}
 	err := api.makeRequest(url, GET, nil, &retval, headers, connectTimeOut, readWriteTimeout)
+	fmt.Println("hi")
 	return retval.ServerInfo, err
 }
 
@@ -277,7 +278,7 @@ func (api *API) delete(url string) error {
 
 func (api *API) makeRequest(requestUrl string, method string, payload []byte, result interface{}, headers map[string]string,
 	cTimeout time.Duration, rwTimeout time.Duration) error {
-	var debug = false
+	var debug = true
 	if debug {
 		fmt.Printf("%s:%v\n", method, requestUrl)
 		if payload != nil {
