@@ -19,29 +19,27 @@ import (
 
 const API_VERSION = "2.0"
 const DEFAULT_SERVER = "http://localhost:8000"
-const BOUNDARY_STRING = "813e3160-3c95-11e5-a151-feff819cdc9f"
 const CRLF = "\r\n"
 
 type API struct {
 	Server              string
 	Version             string
-	Boundary            string
 	AuthToken           string
 	OmitDefaultSiteName bool
 	DefaultSiteName     string
 }
 
 func DefaultApi() API {
-	api := NewAPI(DEFAULT_SERVER, API_VERSION, BOUNDARY_STRING, "Default", true)
+	api := NewAPI(DEFAULT_SERVER, API_VERSION, "Default", true)
 	return api
 }
 
-func NewAPI(server string, version string, boundary string, defaultSiteName string, omitDefaultSiteName bool) API {
+func NewAPI(server string, version string, defaultSiteName string, omitDefaultSiteName bool) API {
 	fixedUpServer := server
 	if strings.HasSuffix(server, "/") {
 		fixedUpServer = server[0 : len(server)-1]
 	}
-	return API{Server: fixedUpServer, Version: version, Boundary: boundary, DefaultSiteName: defaultSiteName, OmitDefaultSiteName: omitDefaultSiteName}
+	return API{Server: fixedUpServer, Version: version, DefaultSiteName: defaultSiteName, OmitDefaultSiteName: omitDefaultSiteName}
 }
 
 type Project struct {
@@ -149,8 +147,8 @@ type Credentials struct {
 }
 
 type User struct {
-	ID string `json:"id,omitempty" xml:"id,attr,omitempty"`
-	Name string `json:"name,omitempty" xml:"name,attr,omitempty"`
+	ID       string `json:"id,omitempty" xml:"id,attr,omitempty"`
+	Name     string `json:"name,omitempty" xml:"name,attr,omitempty"`
 	SiteRole string `json:"siteRole,omitempty" xml:"siteRole,attr,omitempty"`
 	FullName string `json:"fullName,omitempty" xml:"fullName,attr,omitempty"`
 }

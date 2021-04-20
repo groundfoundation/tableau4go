@@ -81,7 +81,6 @@ func (api *API) ServerInfo() (ServerInfo, error) {
 	headers := make(map[string]string)
 	retval := ServerInfoResponse{}
 	err := api.makeRequest(url, GET, nil, &retval, headers, connectTimeOut, readWriteTimeout)
-	fmt.Println("hi")
 	return retval.ServerInfo, err
 }
 
@@ -215,7 +214,7 @@ func (api *API) PublishTDS(siteId string, tdsMetadata Datasource, fullTds string
 //http://onlinehelp.tableau.com/current/api/rest_api/en-us/help.htm#REST/rest_api_ref.htm#Publish_Datasource%3FTocPath%3DAPI%2520Reference%7C_____31
 func (api *API) publishDatasource(siteId string, tdsMetadata Datasource, datasource string, datasourceType string, overwrite bool) (retval *Datasource, err error) {
 	url := fmt.Sprintf("%s/api/%s/sites/%s/datasources?datasourceType=%s&overwrite=%v", api.Server, api.Version, siteId, datasourceType, overwrite)
-	payload := fmt.Sprintf("--%s\r\n", api.Boundary)
+	//payload := fmt.Sprintf("--%s\r\n", api.Boundary)
 	payload += "Content-Disposition: name=\"request_payload\"\r\n"
 	payload += "Content-Type: text/xml\r\n"
 	payload += "\r\n"
@@ -225,14 +224,14 @@ func (api *API) publishDatasource(siteId string, tdsMetadata Datasource, datasou
 		return retval, err
 	}
 	payload += string(xmlRepresentation)
-	payload += fmt.Sprintf("\r\n--%s\r\n", api.Boundary)
+	//payload += fmt.Sprintf("\r\n--%s\r\n", api.Boundary)
 	payload += fmt.Sprintf("Content-Disposition: name=\"tableau_datasource\"; filename=\"%s.tds\"\r\n", tdsMetadata.Name)
 	payload += "Content-Type: application/octet-stream\r\n"
 	payload += "\r\n"
 	payload += datasource
-	payload += fmt.Sprintf("\r\n--%s--\r\n", api.Boundary)
+	//payload += fmt.Sprintf("\r\n--%s--\r\n", api.Boundary)
 	headers := make(map[string]string)
-	headers[content_type_header] = fmt.Sprintf("multipart/mixed; boundary=%s", api.Boundary)
+	//headers[content_type_header] = fmt.Sprintf("multipart/mixed; boundary=%s", api.Boundary)
 	err = api.makeRequest(url, POST, []byte(payload), retval, headers, connectTimeOut, readWriteTimeout)
 	return retval, err
 }
